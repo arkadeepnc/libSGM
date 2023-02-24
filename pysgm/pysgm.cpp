@@ -112,11 +112,11 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(pysgm, m) {
 
-  py::enum_<sgm::ExecuteInOut>(m, "EXECUTE_INOUT")
-      .value("EXECUTE_INOUT_HOST2HOST", sgm::ExecuteInOut::EXECUTE_INOUT_HOST2HOST)
-      .value("EXECUTE_INOUT_HOST2CUDA", sgm::ExecuteInOut::EXECUTE_INOUT_HOST2CUDA)
-      .value("EXECUTE_INOUT_CUDA2HOST", sgm::ExecuteInOut::EXECUTE_INOUT_CUDA2HOST)
-      .value("EXECUTE_INOUT_CUDA2CUDA", sgm::ExecuteInOut::EXECUTE_INOUT_CUDA2CUDA)
+  py::enum_<sgm::EXECUTE_INOUT>(m, "EXECUTE_INOUT")
+      .value("EXECUTE_INOUT_HOST2HOST", sgm::EXECUTE_INOUT::EXECUTE_INOUT_HOST2HOST)
+      .value("EXECUTE_INOUT_HOST2CUDA", sgm::EXECUTE_INOUT::EXECUTE_INOUT_HOST2CUDA)
+      .value("EXECUTE_INOUT_CUDA2HOST", sgm::EXECUTE_INOUT::EXECUTE_INOUT_CUDA2HOST)
+      .value("EXECUTE_INOUT_CUDA2CUDA", sgm::EXECUTE_INOUT::EXECUTE_INOUT_CUDA2CUDA)
       ;
 
   py::enum_<sgm::PathType>(m, "PathType")
@@ -145,16 +145,16 @@ PYBIND11_MODULE(pysgm, m) {
           RW(sgm::StereoSGM::Parameters, LR_max_diff);
 
   StereoSGM
-      .def(py::init<int, int, int, int, int, sgm::ExecuteInOut, const sgm::StereoSGM::Parameters &>(),
+      .def(py::init<int, int, int, int, int, sgm::EXECUTE_INOUT, const sgm::StereoSGM::Parameters &>(),
            py::arg("width") = 612,
            py::arg("height") = 514,
            py::arg("disparity_size") = 128,
            py::arg("input_depth_bits") = 8U,
            py::arg("output_depth_bits") = 8U,
-           py::arg("inout_type") = sgm::ExecuteInOut::EXECUTE_INOUT_HOST2HOST,
+           py::arg("inout_type") = sgm::EXECUTE_INOUT::EXECUTE_INOUT_HOST2HOST,
            py::arg("param") = sgm::StereoSGM::Parameters()
                )
-      .def(py::init<int, int, int, int, int, int, int, sgm::ExecuteInOut, const sgm::StereoSGM::Parameters &>())
+      .def(py::init<int, int, int, int, int, int, int, sgm::EXECUTE_INOUT, const sgm::StereoSGM::Parameters &>())
       .def("execute", [](sgm::StereoSGM &w, uintptr_t left_pixels, uintptr_t right_pixels, uintptr_t dst) {
         w.execute((void *)left_pixels, (void *)right_pixels, (void *)dst);
       })
